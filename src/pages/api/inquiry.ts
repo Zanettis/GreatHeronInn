@@ -13,7 +13,32 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { name = '', email, arrive, depart, guests, suite } = body;
+  const { name = '', phone = '', email, arrive, depart, guests, suite } = body;
+
+  // Validate check-in is at least tomorrow
+  if (arrive) {
+    const arriveDate = new Date(arrive + 'T00:00:00');
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    if (arriveDate < tomorrow) {
+      return new Response(JSON.stringify({ error: 'Check-in must be at least tomorrow.' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+  }
+
+  // Validate minimum 3 nights
+  if (arrive && depart) {
+    const nights = (new Date(depart + 'T00:00:00').getTime() - new Date(arrive + 'T00:00:00').getTime()) / 86400000;
+    if (nights < 3) {
+      return new Response(JSON.stringify({ error: 'Minimum stay is 3 nights.' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+  }
 
   const apiKey = import.meta.env.RESEND_API_KEY;
   const to     = import.meta.env.INQUIRY_TO     || 'heroninn@gmail.com';
@@ -21,7 +46,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (!apiKey) {
     // Dev fallback: log to console, return success
-    console.log('[inquiry]', { name, email, arrive, depart, guests, suite });
+    console.log('[inquiry]', { name, phone, email, arrive, depart, guests, suite });
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -38,6 +63,7 @@ export const POST: APIRoute = async ({ request }) => {
       subject: `Availability Inquiry — ${arrive} to ${depart} (${suite})`,
       html: `
         <p><strong>Name:</strong> ${name || '(not provided)'}</p>
+        <p><strong>Phone:</strong> ${phone || '(not provided)'}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Arrive:</strong> ${arrive}</p>
         <p><strong>Depart:</strong> ${depart}</p>
@@ -47,7 +73,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     // Auto-reply to guest
-    if (name || email) {
+    if (email) {
       await resend.emails.send({
         from,
         to: email,
