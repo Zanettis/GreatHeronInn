@@ -1,0 +1,128 @@
+---
+import { SITE } from '../config';
+---
+
+<div id="book" class="relative max-w-6xl mx-auto px-5 md:px-10 -mt-12 md:-mt-14 z-10">
+  <form id="inquiryForm" class="bg-sand-50 shadow-soft rounded-2xl border border-navy/[.06] grid grid-cols-1 md:grid-cols-[1.1fr_1.1fr_1fr_1.1fr_auto] overflow-hidden">
+    <label class="field p-4 md:p-5 block">
+      <span class="eyebrow text-gulf-500">Arrive</span>
+      <input type="date" name="arrive" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none" />
+    </label>
+    <label class="field p-4 md:p-5 block">
+      <span class="eyebrow text-gulf-500">Depart</span>
+      <input type="date" name="depart" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none" />
+    </label>
+    <label class="field p-4 md:p-5 block">
+      <span class="eyebrow text-gulf-500">Guests</span>
+      <select name="guests" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none appearance-none">
+        <option>2 adults</option>
+        <option>2 adults · 1 child</option>
+        <option>2 adults · 2 children</option>
+        <option>3 adults</option>
+        <option>4 adults</option>
+        <option>5 adults</option>
+        <option>6 adults</option>
+      </select>
+    </label>
+    <label class="field p-4 md:p-5 block">
+      <span class="eyebrow text-gulf-500">Suite</span>
+      <select name="suite" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none appearance-none">
+        <option>1-Bedroom Suite · Poolside</option>
+        <option>1-Bedroom Suite · Gulf Front</option>
+        <option>3-Bedroom Condo Apartment</option>
+      </select>
+    </label>
+    <div class="p-3 flex">
+      <button type="submit" id="inquiryBtn" class="btn-primary inline-flex items-center justify-center gap-2 w-full md:w-auto px-7 py-3.5 rounded-xl font-medium text-[14px]">
+        Request Availability
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+  </form>
+
+  <!-- Email field shown after first click -->
+  <div id="emailRow" class="hidden mt-3 bg-sand-50 shadow-card rounded-xl border border-navy/[.06] grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+    <label class="field p-4 block">
+      <span class="eyebrow text-gulf-500">Your Name</span>
+      <input type="text" id="guestName" placeholder="Jane Smith" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none placeholder:text-navy/30" />
+    </label>
+    <label class="field p-4 block">
+      <span class="eyebrow text-gulf-500">Your Email</span>
+      <input type="email" id="guestEmail" placeholder="you@example.com" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none placeholder:text-navy/30" />
+    </label>
+  </div>
+
+  <p id="inquiryMsg" class="hidden mt-3 ml-2 text-[13px] text-gulf-700"></p>
+  <p class="mt-3 ml-2 text-[12px] text-navy/55">
+    We answer every inquiry personally — usually within a few hours. Or call
+    <a href={`tel:${SITE.phoneTel}`} class="text-navy underline-grow">{SITE.phone}</a>.
+  </p>
+</div>
+
+<script>
+  const form = document.getElementById('inquiryForm') as HTMLFormElement;
+  const msg = document.getElementById('inquiryMsg')!;
+  const emailRow = document.getElementById('emailRow')!;
+  const btn = document.getElementById('inquiryBtn')!;
+
+  // Set default dates
+  const today = new Date();
+  const fmt = (d: Date) => d.toISOString().slice(0, 10);
+  (form.elements as any)['arrive'].value = fmt(today);
+  const dep = new Date(today);
+  dep.setDate(dep.getDate() + 3);
+  (form.elements as any)['depart'].value = fmt(dep);
+
+  let emailRevealed = false;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!emailRevealed) {
+      emailRow.classList.remove('hidden');
+      emailRevealed = true;
+      (document.getElementById('guestName') as HTMLInputElement).focus();
+      return;
+    }
+
+    const name  = (document.getElementById('guestName')  as HTMLInputElement).value.trim();
+    const email = (document.getElementById('guestEmail') as HTMLInputElement).value.trim();
+    const arrive = (form.elements as any)['arrive'].value;
+    const depart = (form.elements as any)['depart'].value;
+    const guests = (form.elements as any)['guests'].value;
+    const suite  = (form.elements as any)['suite'].value;
+
+    if (!email) {
+      (document.getElementById('guestEmail') as HTMLInputElement).focus();
+      return;
+    }
+
+    btn.textContent = 'Sending…';
+    btn.setAttribute('disabled', 'true');
+
+    try {
+      const res = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, arrive, depart, guests, suite }),
+      });
+
+      if (res.ok) {
+        msg.textContent = `Thank you${name ? ', ' + name : ''}! We'll personally check availability for ${arrive} → ${depart} (${guests}, ${suite}) and reply to ${email} within a few hours.`;
+        msg.classList.remove('hidden');
+        emailRow.classList.add('hidden');
+        form.reset();
+        emailRevealed = false;
+      } else {
+        msg.textContent = 'Something went wrong — please call us directly at (727) 595-2589.';
+        msg.classList.remove('hidden');
+      }
+    } catch {
+      msg.textContent = 'Could not send — please call us at (727) 595-2589.';
+      msg.classList.remove('hidden');
+    } finally {
+      btn.textContent = 'Request Availability';
+      btn.removeAttribute('disabled');
+    }
+  });
+</script>

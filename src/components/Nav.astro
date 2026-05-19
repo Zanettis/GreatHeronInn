@@ -1,0 +1,98 @@
+---
+import { SITE } from '../config';
+---
+
+<header id="nav" class="fixed top-0 inset-x-0 z-50 nav-top transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-5 md:px-10 h-[80px] flex items-center justify-between">
+
+    <!-- Logo + wordmark -->
+    <a href="#top" class="flex items-center gap-3">
+      <img src="/assets/heron-logo.png" alt="Great Heron Inn" class="h-12 w-auto object-contain" />
+      <span class="leading-tight">
+        <span class="block serif text-[18px] text-navy tracking-tight">Great Heron Inn</span>
+        <span class="block eyebrow text-gulf-500 -mt-0.5">Gulf Motel Suites</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <nav class="hidden md:flex items-center gap-9 text-[14px] text-navy/85">
+      <a href="#top"      class="underline-grow">Home</a>
+      <a href="#stay"     class="underline-grow">Accommodations</a>
+      <a href="#rates"    class="underline-grow">Rates</a>
+      <a href="#policies" class="underline-grow">Policies</a>
+      <a href="#contact"  class="underline-grow">Contact</a>
+    </nav>
+
+    <!-- Right: phone + CTA + hamburger -->
+    <div class="flex items-center gap-3">
+      <a href={`tel:${SITE.phoneTel}`} class="hidden sm:inline-flex items-center gap-2 text-[13px] text-navy/80 hover:text-navy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.71 3.35a2 2 0 0 1 1.99-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.36a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 15v1.92z"/></svg>
+        <span class="tabular-nums">{SITE.phone}</span>
+      </a>
+      <a href="#book" class="btn-primary inline-flex items-center gap-2 px-4 py-2 text-[13px] rounded-full font-medium">
+        Check Availability
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+
+      <!-- Mobile hamburger -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-navy" aria-label="Open menu" aria-expanded="false">
+        <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu dropdown -->
+  <div id="mobile-menu" class="hidden md:hidden bg-sand-50/97 backdrop-blur border-b border-navy/10">
+    <nav class="max-w-7xl mx-auto px-5 py-4 flex flex-col gap-1 text-[15px] text-navy">
+      <a href="#top"      class="py-2.5 border-b border-navy/[.06]">Home</a>
+      <a href="#stay"     class="py-2.5 border-b border-navy/[.06]">Accommodations</a>
+      <a href="#rates"    class="py-2.5 border-b border-navy/[.06]">Rates</a>
+      <a href="#policies" class="py-2.5 border-b border-navy/[.06]">Policies</a>
+      <a href="#contact"  class="py-2.5">Contact</a>
+    </nav>
+    <div class="max-w-7xl mx-auto px-5 pb-4">
+      <a href={`tel:${SITE.phoneTel}`} class="inline-flex items-center gap-2 text-[14px] text-navy/70">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.71 3.35a2 2 0 0 1 1.99-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.36a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 15v1.92z"/></svg>
+        {SITE.phone}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav')!;
+  const setNavState = () => {
+    if (window.scrollY > 24) {
+      nav.classList.add('nav-scrolled'); nav.classList.remove('nav-top');
+    } else {
+      nav.classList.remove('nav-scrolled'); nav.classList.add('nav-top');
+    }
+  };
+  setNavState();
+  window.addEventListener('scroll', setNavState, { passive: true });
+
+  // Mobile menu toggle
+  const btn = document.getElementById('mobile-menu-btn')!;
+  const menu = document.getElementById('mobile-menu')!;
+  const iconMenu = document.getElementById('icon-menu')!;
+  const iconClose = document.getElementById('icon-close')!;
+
+  btn.addEventListener('click', () => {
+    const open = menu.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!open));
+    iconMenu.classList.toggle('hidden');
+    iconClose.classList.toggle('hidden');
+  });
+
+  // Close mobile menu on link click
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+      iconMenu.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+    });
+  });
+</script>

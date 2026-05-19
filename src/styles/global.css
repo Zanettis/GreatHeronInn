@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-sand-50: #FBF8F2;
+  --color-sand-100: #F5EFE3;
+  --color-sand-200: #EADFCB;
+  --color-gulf-50: #EAF1F4;
+  --color-gulf-100: #CFDDE3;
+  --color-gulf-300: #7FA2B0;
+  --color-gulf-500: #3F6B7E;
+  --color-gulf-700: #234C5E;
+  --color-navy: #0F2E47;
+  --color-navy-deep: #0A2138;
+  --color-sunset-400: #E89A4A;
+  --color-sunset-500: #D67B27;
+  --color-sunset-600: #B85F18;
+  --color-ink: #13283A;
+
+  /* Fonts */
+  --font-serif: 'Fraunces', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow-card: 0 1px 2px rgba(15,46,71,.04), 0 8px 24px -8px rgba(15,46,71,.12);
+  --shadow-soft: 0 1px 2px rgba(15,46,71,.04), 0 18px 50px -20px rgba(15,46,71,.25);
+}
+
+/* Base */
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #13283A;
+  background: #FBF8F2;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Utility classes */
+.serif { font-family: 'Fraunces', serif; }
+.eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.hairline {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(15,46,71,.18), transparent);
+}
+
+/* Hero ken-burns */
+@keyframes drift {
+  0%   { transform: scale(1.02) translate3d(0,0,0); }
+  100% { transform: scale(1.08) translate3d(-1%,-1%,0); }
+}
+.drift { animation: drift 22s ease-in-out infinite alternate; }
+
+/* Nav states */
+.nav-scrolled {
+  background: rgba(251,248,242,.92);
+  backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid rgba(15,46,71,.08);
+}
+.nav-top {
+  background: transparent;
+  border-bottom: 1px solid transparent;
+}
+
+/* Animated underline */
+.underline-grow {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size .35s ease;
+}
+.underline-grow:hover { background-size: 100% 1px; }
+
+/* Buttons */
+.btn-primary {
+  background: #D67B27;
+  color: #FBF8F2;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.btn-primary:hover {
+  background: #B85F18;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px rgba(184,95,24,.55);
+}
+.btn-ghost {
+  color: #0F2E47;
+  border: 1px solid rgba(15,46,71,.18);
+  transition: all .2s ease;
+}
+.btn-ghost:hover {
+  border-color: #0F2E47;
+  background: rgba(15,46,71,.04);
+}
+
+/* Inquiry form field dividers */
+.field + .field { border-left: 1px solid rgba(15,46,71,.10); }
+@media (max-width: 768px) {
+  .field + .field { border-left: 0; border-top: 1px solid rgba(15,46,71,.10); }
+}
+
+/* Room cards */
+.room-card { transition: transform .35s ease, box-shadow .35s ease; }
+.room-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 1px 2px rgba(15,46,71,.04), 0 24px 60px -22px rgba(15,46,71,.25);
+}
+.room-card:hover .room-img { transform: scale(1.04); }
+.room-img { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+
+/* Reveal on scroll */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Season tabs */
+.season-tab[aria-selected="true"]  { background: #0F2E47; color: #FBF8F2; }
+.season-tab[aria-selected="false"] { background: transparent; color: #0F2E47; }
+.season-tab[aria-selected="false"]:hover { background: rgba(15,46,71,.06); }
+
+/* Focus ring */
+:where(button, a, input, select):focus-visible {
+  outline: 2px solid #D67B27;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.rate-cell { font-variant-numeric: tabular-nums; }

@@ -1,0 +1,99 @@
+---
+import { RATES, SITE } from '../config';
+
+const seasons = Object.entries(RATES) as [keyof typeof RATES, typeof RATES[keyof typeof RATES]][];
+---
+
+<section id="rates" class="relative py-24 md:py-32 bg-sand-100">
+  <div class="max-w-6xl mx-auto px-5 md:px-10">
+
+    <div class="text-center mb-12 reveal">
+      <div class="eyebrow text-sunset-500 mb-3">Seasonal Rates</div>
+      <h2 class="text-[34px] md:text-[48px] leading-[1.05] text-navy">
+        1-Bedroom Suite rates,<br />
+        <span class="italic font-light text-gulf-500">by season.</span>
+      </h2>
+      <p class="mt-5 text-[14.5px] text-navy/65 max-w-xl mx-auto">
+        Choose a season to compare Gulf Front and Poolside rates. Rates quoted are for one or two persons; see policies below for additional details.
+      </p>
+    </div>
+
+    <div class="reveal">
+      <!-- Tabs -->
+      <div role="tablist" class="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-sand-50 border border-navy/10 rounded-full max-w-3xl mx-auto">
+        {seasons.map(([key, s], i) => (
+          <button
+            role="tab"
+            aria-selected={i === 0 ? 'true' : 'false'}
+            data-tab={key}
+            class="season-tab px-5 py-2.5 rounded-full text-[13px] font-medium transition-colors"
+          >
+            {s.label} · <span class="opacity-70 font-normal">{s.dates}</span>
+          </button>
+        ))}
+      </div>
+
+      <!-- Panels -->
+      <div class="mt-10 max-w-4xl mx-auto">
+        {seasons.map(([key, s], i) => (
+          <div data-panel={key} class:list={['grid md:grid-cols-2 gap-5 md:gap-6', { hidden: i !== 0 }]}>
+            <!-- Gulf Front -->
+            <div class="bg-sand-50 rounded-2xl border border-navy/[.08] p-8 md:p-10">
+              <div class="flex items-center justify-between">
+                <div class="eyebrow text-sunset-500">Gulf Front</div>
+                <svg class="w-5 h-5 text-gulf-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2"/></svg>
+              </div>
+              <div class="mt-6 flex items-baseline gap-2">
+                <span class="serif text-[44px] text-navy rate-cell">{s.gulfFront.night}</span>
+                <span class="text-[13px] text-navy/55">/ night</span>
+              </div>
+              <div class="mt-2 text-[14px] text-navy/70 rate-cell">{s.gulfFront.week} / week</div>
+              <div class="hairline my-6"></div>
+              <p class="text-[13px] text-navy/65 leading-relaxed">Directly facing the Gulf — wake up to the water.</p>
+            </div>
+            <!-- Poolside -->
+            <div class="bg-sand-50 rounded-2xl border border-navy/[.08] p-8 md:p-10">
+              <div class="flex items-center justify-between">
+                <div class="eyebrow text-sunset-500">Poolside</div>
+                <svg class="w-5 h-5 text-gulf-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 7.9 7 7c-.29.9-1.29 1.81-2.29 2.06C3.57 10 3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg>
+              </div>
+              <div class="mt-6 flex items-baseline gap-2">
+                <span class="serif text-[44px] text-navy rate-cell">{s.poolside.night}</span>
+                <span class="text-[13px] text-navy/55">/ night</span>
+              </div>
+              <div class="mt-2 text-[14px] text-navy/70 rate-cell">{s.poolside.week} / week</div>
+              <div class="hairline my-6"></div>
+              <p class="text-[13px] text-navy/65 leading-relaxed">A few steps from the heated pool, a minute from the sand.</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-10 text-center text-[12.5px] text-navy/55 max-w-2xl mx-auto leading-relaxed">
+        Rates shown are for the 1-Bedroom Apartment Suite, for one or two persons. 13% Florida tax not included.
+        Extra persons $20.00/night each plus tax. Monthly rates available upon request.
+        For the 3-Bedroom Condo Apartment, please call <a href={`tel:${SITE.phoneTel}`} class="text-navy underline-grow">{SITE.phone}</a>.
+        Prices subject to change without notice.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.season-tab');
+  const panels = new Map<string, HTMLElement>();
+  document.querySelectorAll<HTMLElement>('[data-panel]').forEach(el => {
+    panels.set(el.dataset.panel!, el);
+  });
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const key = tab.dataset.tab!;
+      tabs.forEach(t => t.setAttribute('aria-selected', String(t === tab)));
+      panels.forEach((el, k) => {
+        if (k === key) el.classList.remove('hidden');
+        else el.classList.add('hidden');
+      });
+    });
+  });
+</script>

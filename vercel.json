@@ -1,0 +1,12 @@
+{
+  "buildCommand": "npm run build",
+  "framework": "astro",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.heroninn.com" }],
+      "destination": "https://heroninn.com/:path*",
+      "permanent": true
+    }
+  ]
+}

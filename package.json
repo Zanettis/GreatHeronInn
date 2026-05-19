@@ -1,0 +1,22 @@
+{
+  "name": "great-heron-inn",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": "20.x"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/vercel": "^10.0.7",
+    "@lucide/astro": "^1.16.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.3.5",
+    "resend": "^6.12.3",
+    "tailwindcss": "^4.3.0"
+  }
+}

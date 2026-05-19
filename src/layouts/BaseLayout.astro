@@ -1,0 +1,97 @@
+---
+import '../styles/global.css';
+import { SITE } from '../config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title       = `${SITE.name} — Beachfront Suites on Indian Rocks Beach, FL`,
+  description = SITE.description,
+  ogImage     = '/assets/photos/hero-beachfront.webp',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+
+  <!-- OpenGraph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content={canonical} />
+  <meta property="og:title"       content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image"       content={new URL(ogImage, SITE.url).href} />
+
+  <!-- Twitter -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image"       content={new URL(ogImage, SITE.url).href} />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- LodgingBusiness JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'LodgingBusiness',
+    name: SITE.name,
+    url: SITE.url,
+    telephone: SITE.phone,
+    faxNumber: SITE.fax,
+    email: SITE.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: SITE.address.street,
+      addressLocality: SITE.address.city,
+      addressRegion: SITE.address.state,
+      postalCode: SITE.address.zip,
+      addressCountry: 'US',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: SITE.geo.lat,
+      longitude: SITE.geo.lng,
+    },
+    image: new URL('/assets/photos/hero-beachfront.webp', SITE.url).href,
+    priceRange: '$$',
+    amenityFeature: [
+      { '@type': 'LocationFeatureSpecification', name: 'Heated Pool',         value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Beachfront',          value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Private Dock',        value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Daily Maid Service',  value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Central Air & Heat',  value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Cable TV',            value: true },
+    ],
+  })} />
+</head>
+<body class="min-h-screen">
+  <slot />
+
+  <!-- Reveal on scroll -->
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

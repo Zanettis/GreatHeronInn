@@ -1,0 +1,102 @@
+---
+import { SITE } from '../config';
+
+const year = new Date().getFullYear();
+---
+
+<footer id="contact" class="bg-sand-100 border-t border-navy/10">
+  <div class="max-w-7xl mx-auto px-5 md:px-10 py-20 md:py-24 grid md:grid-cols-12 gap-12">
+
+    <!-- Brand col -->
+    <div class="md:col-span-5">
+      <div class="flex items-center gap-4 mb-6">
+        <img src="/assets/heron-logo.png" alt="Great Heron Inn" class="h-16 w-auto object-contain" />
+        <div class="leading-tight">
+          <div class="serif text-[22px] text-navy">{SITE.name}</div>
+          <div class="eyebrow text-gulf-500 -mt-0.5">{SITE.subtitle}</div>
+        </div>
+      </div>
+      <p class="serif italic text-[18px] text-gulf-500 leading-snug max-w-md">{SITE.tagline}</p>
+      <p class="mt-5 text-[14.5px] leading-[1.8] text-navy/70 max-w-md">
+        A family-owned and operated motel where cleanliness, our guests' comfort, and a friendly atmosphere are our trademarks.
+      </p>
+      <div class="mt-8 flex gap-2 flex-wrap">
+        <a href="#book" class="btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-medium">
+          Check Availability
+          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="#stay" class="btn-ghost inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-medium">
+          See accommodations
+        </a>
+      </div>
+    </div>
+
+    <!-- Visit col -->
+    <div class="md:col-span-3">
+      <div class="eyebrow text-gulf-500 mb-5">Visit</div>
+      <address class="not-italic text-[14.5px] leading-[1.8] text-navy/85">
+        {SITE.address.street}<br />
+        {SITE.address.city}<br />
+        Florida {SITE.address.zip}
+      </address>
+      <a href={SITE.mapsUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 text-[13px] text-navy/70 hover:text-navy">
+        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
+        Open in Maps
+      </a>
+    </div>
+
+    <!-- Reservations col -->
+    <div class="md:col-span-4">
+      <div class="eyebrow text-gulf-500 mb-5">Reservations</div>
+      <ul class="space-y-3 text-[14.5px] text-navy/85">
+        <li class="flex items-center gap-3">
+          <svg class="w-4 h-4 text-sunset-500 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.71 3.35a2 2 0 0 1 1.99-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.36a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 15v1.92z"/></svg>
+          <a href={`tel:${SITE.phoneTel}`} class="tabular-nums">{SITE.phone}</a>
+        </li>
+        <li class="flex items-center gap-3">
+          <svg class="w-4 h-4 text-sunset-500 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+          <span class="tabular-nums">{SITE.fax} · fax</span>
+        </li>
+        <li class="flex items-center gap-3">
+          <svg class="w-4 h-4 text-sunset-500 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a href={`mailto:${SITE.email}`} class="underline-grow">{SITE.email}</a>
+        </li>
+      </ul>
+
+      <div class="mt-8">
+        <div class="eyebrow text-gulf-500 mb-3">We Accept</div>
+        <div class="flex items-center gap-2 flex-wrap">
+          {['Visa', 'Mastercard', 'Discover', 'American Express'].map(card => (
+            <span class="px-3 py-1.5 rounded-md bg-sand-50 border border-navy/10 text-[12px] text-navy/80 font-medium">{card}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ADA notice -->
+  <div class="border-t border-navy/10 bg-sand-50/60">
+    <div class="max-w-7xl mx-auto px-5 md:px-10 py-6 flex items-start gap-3 text-[12.5px] text-navy/70 leading-relaxed">
+      <svg class="w-4 h-4 mt-0.5 text-sunset-500 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 6-3 5.5 3-3.5 3"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/></svg>
+      <p>
+        <span class="text-navy font-medium">Accessibility (ADA):</span>
+        {' '}In compliance with the Americans with Disabilities Act, disabled guests who need assistance using our services or obtaining information are invited to call us at
+        {' '}<a href={`tel:${SITE.phoneTel}`} class="text-navy underline-grow tabular-nums">{SITE.phone}</a>.
+        {' '}We are happy to help.
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="border-t border-navy/10">
+    <div class="max-w-7xl mx-auto px-5 md:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[12px] text-navy/55">
+      <div>© {year} Great Heron Inn · Gulf Motel Suites — Indian Rocks Beach, FL</div>
+      <div class="flex items-center gap-5">
+        <a href="#policies" class="hover:text-navy">Policies</a>
+        <a href="#rates"    class="hover:text-navy">Rates</a>
+        <a href="#contact"  class="hover:text-navy">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
