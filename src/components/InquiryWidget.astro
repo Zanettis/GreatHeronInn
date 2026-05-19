@@ -4,17 +4,17 @@ import { SITE } from '../config';
 
 <div id="book" class="relative max-w-6xl mx-auto px-5 md:px-10 -mt-12 md:-mt-14 z-10">
   <form id="inquiryForm" class="bg-sand-50 shadow-soft rounded-2xl border border-navy/[.06] grid grid-cols-1 md:grid-cols-[1.1fr_1.1fr_1fr_1.1fr_auto] overflow-hidden">
-    <label class="field p-4 md:p-5 block">
+    <label class="field p-4 md:p-5 block min-h-[72px]">
       <span class="eyebrow text-gulf-500">Arrive</span>
-      <input type="date" name="arrive" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none" />
+      <input type="date" name="arrive" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none min-h-[36px]" />
     </label>
-    <label class="field p-4 md:p-5 block">
+    <label class="field p-4 md:p-5 block min-h-[72px]">
       <span class="eyebrow text-gulf-500">Depart</span>
-      <input type="date" name="depart" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none" />
+      <input type="date" name="depart" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none min-h-[36px]" />
     </label>
-    <label class="field p-4 md:p-5 block">
+    <label class="field p-4 md:p-5 block min-h-[72px]">
       <span class="eyebrow text-gulf-500">Guests</span>
-      <select name="guests" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none appearance-none">
+      <select name="guests" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none appearance-none min-h-[36px]">
         <option>2 adults</option>
         <option>2 adults · 1 child</option>
         <option>2 adults · 2 children</option>
@@ -24,9 +24,9 @@ import { SITE } from '../config';
         <option>6 adults</option>
       </select>
     </label>
-    <label class="field p-4 md:p-5 block">
+    <label class="field p-4 md:p-5 block min-h-[72px]">
       <span class="eyebrow text-gulf-500">Suite</span>
-      <select name="suite" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none appearance-none">
+      <select name="suite" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none appearance-none min-h-[36px]">
         <option>1-Bedroom Suite · Poolside</option>
         <option>1-Bedroom Suite · Gulf Front</option>
         <option>3-Bedroom Condo Apartment</option>
@@ -42,13 +42,13 @@ import { SITE } from '../config';
 
   <!-- Email field shown after first click -->
   <div id="emailRow" class="hidden mt-3 bg-sand-50 shadow-card rounded-xl border border-navy/[.06] grid grid-cols-1 md:grid-cols-2 overflow-hidden">
-    <label class="field p-4 block">
+    <label class="field p-4 block min-h-[72px]">
       <span class="eyebrow text-gulf-500">Your Name</span>
-      <input type="text" id="guestName" placeholder="Jane Smith" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none placeholder:text-navy/30" />
+      <input type="text" id="guestName" placeholder="Jane Smith" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none placeholder:text-navy/30 min-h-[36px]" />
     </label>
-    <label class="field p-4 block">
+    <label class="field p-4 block min-h-[72px]">
       <span class="eyebrow text-gulf-500">Your Email</span>
-      <input type="email" id="guestEmail" placeholder="you@example.com" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none placeholder:text-navy/30" />
+      <input type="email" id="guestEmail" placeholder="you@example.com" class="block mt-1.5 w-full bg-transparent text-[15px] text-navy font-medium outline-none placeholder:text-navy/30 min-h-[36px]" />
     </label>
   </div>
 

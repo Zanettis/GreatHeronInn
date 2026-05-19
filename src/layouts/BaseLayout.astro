@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { SITE } from '../config';
+const { phoneTel, phone } = SITE;
 
 interface Props {
   title?: string;
@@ -84,7 +85,19 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
 <body class="min-h-screen">
   <slot />
 
-  <!-- Reveal on scroll -->
+  <!-- Sticky mobile CTA bar -->
+  <div id="mobile-cta-bar" aria-hidden="true">
+    <a href={`tel:${phoneTel}`} class="flex items-center gap-2 text-[13px] text-navy/80 hover:text-navy">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.71 3.35a2 2 0 0 1 1.99-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.36a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 15v1.92z"/></svg>
+      <span class="tabular-nums font-medium">{phone}</span>
+    </a>
+    <a href="#book" class="btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-medium">
+      Check Availability
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <!-- Reveal on scroll + mobile CTA visibility -->
   <script>
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -92,6 +105,23 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Mobile CTA bar: show when #book is out of view (scrolled past)
+    const bar = document.getElementById('mobile-cta-bar');
+    const bookSection = document.getElementById('book');
+    if (bar && bookSection) {
+      const bookObs = new IntersectionObserver((entries) => {
+        const visible = entries[0].isIntersecting;
+        if (visible) {
+          bar.classList.remove('visible');
+          bar.setAttribute('aria-hidden', 'true');
+        } else if (window.scrollY > 100) {
+          bar.classList.add('visible');
+          bar.setAttribute('aria-hidden', 'false');
+        }
+      }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
+      bookObs.observe(bookSection);
+    }
   </script>
 </body>
 </html>

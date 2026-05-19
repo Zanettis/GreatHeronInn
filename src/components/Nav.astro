@@ -35,7 +35,7 @@ import { SITE } from '../config';
       </a>
 
       <!-- Mobile hamburger -->
-      <button id="mobile-menu-btn" class="md:hidden p-2 text-navy" aria-label="Open menu" aria-expanded="false">
+      <button id="mobile-menu-btn" class="md:hidden min-h-[44px] min-w-[44px] flex items-center justify-center text-navy" aria-label="Open menu" aria-expanded="false">
         <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
         <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
@@ -43,13 +43,13 @@ import { SITE } from '../config';
   </div>
 
   <!-- Mobile menu dropdown -->
-  <div id="mobile-menu" class="hidden md:hidden bg-sand-50/97 backdrop-blur border-b border-navy/10">
+  <div id="mobile-menu" class="mobile-menu md:hidden bg-sand-50/97 backdrop-blur border-b border-navy/10">
     <nav class="max-w-7xl mx-auto px-5 py-4 flex flex-col gap-1 text-[15px] text-navy">
-      <a href="#top"      class="py-2.5 border-b border-navy/[.06]">Home</a>
-      <a href="#stay"     class="py-2.5 border-b border-navy/[.06]">Accommodations</a>
-      <a href="#rates"    class="py-2.5 border-b border-navy/[.06]">Rates</a>
-      <a href="#policies" class="py-2.5 border-b border-navy/[.06]">Policies</a>
-      <a href="#contact"  class="py-2.5">Contact</a>
+      <a href="#top"      class="py-3.5 border-b border-navy/[.06]">Home</a>
+      <a href="#stay"     class="py-3.5 border-b border-navy/[.06]">Accommodations</a>
+      <a href="#rates"    class="py-3.5 border-b border-navy/[.06]">Rates</a>
+      <a href="#policies" class="py-3.5 border-b border-navy/[.06]">Policies</a>
+      <a href="#contact"  class="py-3.5">Contact</a>
     </nav>
     <div class="max-w-7xl mx-auto px-5 pb-4">
       <a href={`tel:${SITE.phoneTel}`} class="inline-flex items-center gap-2 text-[14px] text-navy/70">
@@ -79,20 +79,20 @@ import { SITE } from '../config';
   const iconMenu = document.getElementById('icon-menu')!;
   const iconClose = document.getElementById('icon-close')!;
 
+  const closeMenu = () => {
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    iconMenu.classList.remove('hidden');
+    iconClose.classList.add('hidden');
+  };
+
   btn.addEventListener('click', () => {
-    const open = menu.classList.toggle('hidden');
-    btn.setAttribute('aria-expanded', String(!open));
-    iconMenu.classList.toggle('hidden');
-    iconClose.classList.toggle('hidden');
+    const isOpen = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
+    iconMenu.classList.toggle('hidden', isOpen);
+    iconClose.classList.toggle('hidden', !isOpen);
   });
 
   // Close mobile menu on link click
-  menu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      menu.classList.add('hidden');
-      btn.setAttribute('aria-expanded', 'false');
-      iconMenu.classList.remove('hidden');
-      iconClose.classList.add('hidden');
-    });
-  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 </script>

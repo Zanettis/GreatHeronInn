@@ -135,3 +135,48 @@ h1, h2, h3, h4 {
 }
 
 .rate-cell { font-variant-numeric: tabular-nums; }
+
+/* Mobile menu slide animation */
+.mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.28s ease;
+}
+.mobile-menu.open { max-height: 420px; }
+
+/* Scroll indicator bounce */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(5px); }
+}
+.scroll-bounce { animation: bounce-slow 2s ease-in-out infinite; }
+
+/* Sticky mobile CTA bar */
+#mobile-cta-bar {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 45;
+  background: rgba(251,248,242,.96);
+  backdrop-filter: saturate(140%) blur(10px);
+  border-top: 1px solid rgba(15,46,71,.10);
+  padding: 10px 20px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(100%);
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+#mobile-cta-bar.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+@media (min-width: 768px) {
+  #mobile-cta-bar { display: none !important; }
+}
